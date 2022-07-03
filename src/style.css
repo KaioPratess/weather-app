@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: white;
+}
+
+body {
+  background: url('./img/bg1.jpg') no-repeat center/cover;
+}
+
+.header {
+  height: 80px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, .5);
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.page-title {
+  font-size: 3rem;
+}
+
+.main-container {
+  display: grid;
+  gap: 50px;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+.city {
+  justify-self: center;
+}
+
+.city label {
+  font-size: 1.25rem;
+}
+
+.city input {
+  color: white;
+  padding: 10px;
+  outline: none;
+  background-color: rgba(0, 0, 0, .5);
+  border: none;
+}
+
+.main-img {
+  width: 150px;
+  height: 150px;
+}
+
+.img {
+  width: 60px;
+  height: 60px;
+}
+
+.forecast {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.forecast p, .day, .date {
+  font-size: 1.5rem;
+}
+
+.forecast p {
+  margin-bottom: 50px;
+}
+
+.city-name, .temperature {
+  font-size: 3rem;
+}
+
+.min-max {
+  display: flex;
+  gap: 80px;
+  font-size: 2.25rem;
+  margin-top: 10px;
+  margin-bottom: 50px;
+}
+
+.week-forecast {
+  display: flex;
+  gap: 50px;
+  position: relative;
+}
+
+.week-forecast::before {
+  content: '';
+  height: 1.25px;
+  width: 110%;
+  display: block;
+  background-color: rgba(255, 255, 255, .4);
+  position: absolute;
+  left: -30px;
+  top: -20px;
+}
+
+.measurement p {
+  cursor: pointer;
+}
