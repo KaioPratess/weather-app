@@ -18,7 +18,6 @@ import n31 from './icons/13n.png';
 import d05 from './icons/50d.png';
 import n05 from './icons/50n.png';
 import unknown from'./icons/unknown.png';
-import events from './pubSub.js';
 
 const icons = {
   d10,
@@ -45,23 +44,41 @@ const icons = {
 export default function handleApp() {
 
   async function fetchWeatherData(city, unit) {
-      const info = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&APPID=6764af51c72b89c3c46e05248d404751`, {
+      const coordinates = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6764af51c72b89c3c46e05248d404751`);
+      const coord = await coordinates.json();
+      let lat = coord[0].lat;
+      let lon = coord[0].lon;
+
+      const info = await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,alerts&units=${unit}&appid=6764af51c72b89c3c46e05248d404751`, {
         mode: 'cors'
       });
       const data = await info.json();
-      console.log(data)
+      data.name = coord[0].name;
       return data
   }
 
   function setValues(response, u) {
-    const icon = response.weather[0].icon.split("").reverse().join("");
-    console.log(icon)
+    const icon = response.current.weather[0].icon.split("").reverse().join("");
     dom.select.cityName.textContent = response.name;
-    dom.select.temperature.textContent = `${Math.floor(response.main.temp)}º${u}`;
+    dom.select.temperature.textContent = `${Math.floor(response.current.temp)}º${u}`;
     dom.select.mainIcon.setAttribute('src', icons[icon]);
-    dom.select.min.textContent = `${Math.floor(response.main.temp_min)}º${u}`;
-    dom.select.max.textContent = `${Math.floor(response.main.temp_max)}º${u}`;
-    dom.select.description.textContent = response.weather[0].description;
+    dom.select.min.textContent = `${Math.floor(response.daily[0].temp.min)}º${u}`;
+    dom.select.max.textContent = `${Math.floor(response.daily[0].temp.max)}º${u}`;
+    dom.select.description.textContent = response.current.weather[0].description;
+    displayNextDays(response, u);
+  }
+
+  function displayNextDays(response, u) {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    dom.select.weekForecast.textContent = '';
+    for(let i = 0; i < response.daily.length -1; i++) {
+      const icon = response.daily[i].weather[0].icon.split("").reverse().join("");
+      let dayOfWeek = new Date(response.daily[i].dt * 1000);
+      const dateString = `${('0' + dayOfWeek.getDate()).toString().slice(-2)}/${('0' + dayOfWeek.getMonth()).toString().slice(-2)}`;
+      const min = `${Math.floor(response.daily[i].temp.min)}º${u}`;
+      const max = `${Math.floor(response.daily[i].temp.max)}º${u}`;
+      dom.createDayBox(days[dayOfWeek.getDay()], icons[icon], dateString, min, max);
+    }
   }
 
   function getWeatherData(city, unit, u) {
@@ -69,6 +86,7 @@ export default function handleApp() {
     data.then((response) => {
       setValues(response, u);
     }).catch((error) => {
+      console.log(error)
       alert("We didn't found you city, please try again!")
     })
   } 
