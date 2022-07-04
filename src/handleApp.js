@@ -44,7 +44,7 @@ const icons = {
 export default function handleApp() {
 
   async function fetchWeatherData(city, unit) {
-      const coordinates = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6764af51c72b89c3c46e05248d404751`);
+      const coordinates = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=6764af51c72b89c3c46e05248d404751`, {mode: 'cors'});
       const coord = await coordinates.json();
       let lat = coord[0].lat;
       let lon = coord[0].lon;
@@ -122,7 +122,6 @@ export default function handleApp() {
   } else if(dom.select.fahrenheit.classList.contains('active')) {
       getWeatherData('São Paulo', 'imperial', 'F');
   }
-
 
   dom.select.search.addEventListener('click', searchCity);
   dom.select.measurement.addEventListener('click', changeUnit);
