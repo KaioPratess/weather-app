@@ -14,11 +14,16 @@
     <span class="page-title">Weather Forecast</span>
   </header>
   <div class="main-container">
-    <div class="city">
-      <form action="#">
+    <div class="conf">
+      <div class="city">
         <label for="city">City:</label>
-        <input type="text" id="city" name="city">
-      </form>
+        <input type="text" id="city" name="city" maxlength="30">
+        <span class="search">🔎︎</span>
+      </div>
+      <div class="measurement">
+        <p class="c active">ºC</p>
+        <p class="f">ºF</p>
+      </div>
     </div>
     <div class="forecast">
       <h1 class="city-name">City Name</h1>
@@ -30,7 +35,7 @@
         <span class="min">6º</span>
         <span class="max">22º</span>
       </div>
-      <p>Scattered Thundershowers</p>
+      <p class="description">Scattered Thundershowers</p>
       <div class="week-forecast">
         <div>
           <span class="day">Mon</span>
@@ -75,6 +80,9 @@
       </div>
     </div>
   </div>
+  <footer class="footer">
+    <p>Made by KaioPratess</p>
+  </footer>
 </body>
 
 </html>
